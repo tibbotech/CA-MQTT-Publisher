@@ -1,0 +1,20 @@
+include "global.tbh"
+
+dim connect_lost as no_yes=NO
+
+'====================================================================
+sub callback_mqtt_connect_ok()
+	pat.play(PAT_GREEN_ON,PL_PAT_CANINT)
+end sub
+
+sub callback_mqtt_connect_lost()
+	pat.play("-",PL_PAT_CANINT)
+	connect_lost=YES
+end sub
+
+sub callback_mqtt_notif(byref topic as string,byref data as string)
+end sub
+
+sub callback_mqtt_sub_ok()
+end sub
+
