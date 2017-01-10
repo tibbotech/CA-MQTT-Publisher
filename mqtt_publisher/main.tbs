@@ -1,0 +1,58 @@
+include "global.tbh"
+
+'====================================================================
+sub on_sys_init()
+	net.ip=OWN_IP
+	net.gatewayip=PUBLISH_DEMO_GATEWAY
+	net.netmask="255.255.255.0"
+
+	pat.play(PAT_GREEN_BLINKING,PL_PAT_CANINT)
+
+	kp.returnlinesmapping="9,32,11"
+	kp.enabled=YES
+		
+	mqtt_start()
+	if mqtt_connect(MQTT_SERVER_HOST,1883,MQTT_NAME,MQTT_PASSWORD,60)=NG then
+		'In here, we cannot make a tcp link to the host ...
+		connect_lost=YES
+	end if
+end sub
+
+sub on_sys_timer()
+	if connect_lost=YES then
+		'Try to establish the tcp link with mqtt host ...
+		if mqtt_reconnect()=OK then
+			connect_lost=NO
+		end if
+	end if
+	mqtt_proc_timer()
+end sub
+
+sub on_sock_data_arrival()
+	mqtt_proc_data()
+end sub
+
+sub on_kp(key_event as enum pl_kp_event_codes, key_code as byte)
+	select case key_code
+	case 0:
+		if key_event=PL_KP_EVENT_PRESSED then
+			mqtt_publish("LED/RED","1")
+		else if key_event=PL_KP_EVENT_RELEASED then	
+			mqtt_publish("LED/RED","0")
+		end if
+	
+	case 1:
+		if key_event=PL_KP_EVENT_PRESSED then
+			mqtt_publish("LED/YELLOW","1")
+		else if key_event=PL_KP_EVENT_RELEASED then	
+			mqtt_publish("LED/YELLOW","0")
+		end if
+	
+	case 2:
+		if key_event=PL_KP_EVENT_PRESSED then
+			mqtt_publish("LED/GREEN","1")
+		else if key_event=PL_KP_EVENT_RELEASED then	
+			mqtt_publish("LED/GREEN","0")
+		end if
+	end select
+end sub
