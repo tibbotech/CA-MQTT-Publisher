@@ -12,18 +12,12 @@ sub on_sys_init()
 	kp.enabled=YES
 		
 	mqtt_start()
-	if mqtt_connect(MQTT_SERVER_HOST,1883,MQTT_NAME,MQTT_PASSWORD,60)=NG then
-		'In here, we cannot make a tcp link to the host ...
-		connect_lost=YES
-	end if
+	mqtt_connected = mqtt_connect(MQTT_SERVER_HOST,1883,MQTT_NAME,MQTT_PASSWORD,30)
 end sub
 
 sub on_sys_timer()
-	if connect_lost=YES then
-		'Try to establish the tcp link with mqtt host ...
-		if mqtt_reconnect()=OK then
-			connect_lost=NO
-		end if
+	if (mqtt_connected = false) then
+		mqtt_connected = mqtt_reconnect()	
 	end if
 	mqtt_proc_timer()
 end sub
@@ -32,27 +26,28 @@ sub on_sock_data_arrival()
 	mqtt_proc_data()
 end sub
 
+
 sub on_kp(key_event as enum pl_kp_event_codes, key_code as byte)
 	select case key_code
 	case 0:
 		if key_event=PL_KP_EVENT_PRESSED then
-			mqtt_publish("LED/RED","1")
+			mqtt_publish("LED/RED","1",QOS_AT_MOST_ONCE)
 		else if key_event=PL_KP_EVENT_RELEASED then	
-			mqtt_publish("LED/RED","0")
+			mqtt_publish("LED/RED","0",QOS_AT_MOST_ONCE)
 		end if
 	
 	case 1:
 		if key_event=PL_KP_EVENT_PRESSED then
-			mqtt_publish("LED/YELLOW","1")
+			mqtt_publish("LED/YELLOW","1",QOS_AT_MOST_ONCE)
 		else if key_event=PL_KP_EVENT_RELEASED then	
-			mqtt_publish("LED/YELLOW","0")
+			mqtt_publish("LED/YELLOW","0",QOS_AT_MOST_ONCE)
 		end if
 	
 	case 2:
 		if key_event=PL_KP_EVENT_PRESSED then
-			mqtt_publish("LED/GREEN","1")
+			mqtt_publish("LED/GREEN","1",QOS_AT_MOST_ONCE)
 		else if key_event=PL_KP_EVENT_RELEASED then	
-			mqtt_publish("LED/GREEN","0")
+			mqtt_publish("LED/GREEN","0",QOS_AT_MOST_ONCE)
 		end if
 	end select
 end sub
