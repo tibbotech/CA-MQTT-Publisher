@@ -1,6 +1,7 @@
 'DEFINES-------------------------------------------------------------
 
 #define MQTT_DEBUG_PRINT 1
+#define MQTT_APP_CLIENT_ID "PUBLISHER"
 
 const MQTT_NAME="PUBLISHER"					'<<<<<<<<====== MQTT server login name
 const MQTT_PASSWORD ="ABCDEFGDDD"			'<<<<<<<<====== MQTT server login password

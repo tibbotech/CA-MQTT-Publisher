@@ -36,23 +36,23 @@ sub on_kp(key_event as enum pl_kp_event_codes, key_code as byte)
 	select case key_code
 	case 0:
 		if key_event=PL_KP_EVENT_PRESSED then
-			mqtt_publish("LED/RED","1")
+			mqtt_publish("LED/RED","1",QOS_EXACTLY_ONCE)
 		else if key_event=PL_KP_EVENT_RELEASED then	
-			mqtt_publish("LED/RED","0")
+			mqtt_publish("LED/RED","0",QOS_EXACTLY_ONCE)
 		end if
 	
 	case 1:
 		if key_event=PL_KP_EVENT_PRESSED then
-			mqtt_publish("LED/YELLOW","1")
+			mqtt_publish("LED/YELLOW","1",QOS_EXACTLY_ONCE)
 		else if key_event=PL_KP_EVENT_RELEASED then	
-			mqtt_publish("LED/YELLOW","0")
+			mqtt_publish("LED/YELLOW","0",QOS_EXACTLY_ONCE)
 		end if
 	
 	case 2:
 		if key_event=PL_KP_EVENT_PRESSED then
-			mqtt_publish("LED/GREEN","1")
+			mqtt_publish("LED/GREEN","1",QOS_EXACTLY_ONCE)
 		else if key_event=PL_KP_EVENT_RELEASED then	
-			mqtt_publish("LED/GREEN","0")
+			mqtt_publish("LED/GREEN","0",QOS_EXACTLY_ONCE)
 		end if
 	end select
 end sub

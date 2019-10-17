@@ -1,0 +1,81 @@
+[project]
+version = 1
+platform = TPP3W(G2)
+src_lib_ver = 2_01_03
+name = mqtt_publisher
+output = mqtt_publisher.tpc
+debug = on
+defines = /dOBJECT_FD=FD_DISABLED /dOBJECT_WLN=WLN_ENABLED /dOBJECT_KP=KP_ENABLED
+transport = udp_winpcap
+
+[address1]
+platform = EM500W
+transport = udp_winpcap
+address = 0.36.66.1.0.44
+
+[address2]
+platform = TPP3W
+transport = udp_winpcap
+address = 0.36.119.81.127.23
+
+[address3]
+platform = EM510W
+transport = udp_winpcap
+address = 
+
+[file1]
+path = main.tbs
+type = basic
+format = 
+condition = 
+locked = no
+location = 
+
+[file2]
+path = global.tbh
+type = header
+format = 
+condition = 
+locked = no
+location = 
+
+[file3]
+path = sock\trunk\sock.tbh
+type = header
+format = 
+condition = 
+locked = yes
+location = commonlib
+
+[file4]
+path = sock\trunk\sock.tbs
+type = basic
+format = 
+condition = 
+locked = yes
+location = commonlib
+
+[file5]
+path = device.tbs
+type = basic
+format = 
+condition = 
+locked = no
+location = project
+
+[file6]
+path = mqtt\trunk\mqtt.tbh
+type = header
+format = 
+condition = 
+locked = yes
+location = commonlib
+
+[file7]
+path = mqtt\trunk\mqtt.tbs
+type = basic
+format = 
+condition = 
+locked = yes
+location = commonlib
+
